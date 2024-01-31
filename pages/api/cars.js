@@ -6,11 +6,11 @@ const handler = async (req, res) => {
     const { name, direction } = req.body;
 
     try {
-      await connectDB();
       const newCar = new Car({ name, direction });
       await newCar.save();
       res.status(201).json({ message: 'Car added successfully' });
     } catch (error) {
+      console.error('Error saving car:', error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   } else {
@@ -18,4 +18,4 @@ const handler = async (req, res) => {
   }
 };
 
-export default handler;
+export default connectDB(handler);
