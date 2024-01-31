@@ -1,20 +1,27 @@
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 
-const connectDB = async () => {
-  if (mongoose.connections[0]?.readyState) return;
+// const connectDB = async () => {
+//   if (mongoose.connections[0]?.readyState) return;
 
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,  // Remove this line, as it's deprecated
-      useUnifiedTopology: true,  // Remove this line, as it's deprecated
-      useCreateIndex: true,  // Add this line to use the new index creation system
-      useFindAndModify: false,  // Add this line to use the new findOneAndUpdate method
-    });
-    console.log('MongoDB Connected');
-  } catch (error) {
-    console.error('MongoDB Connection Error:', error);
-    process.exit(1);
-  }
-};
+//   try {
+//     await mongoose.connect(process.env.MONGODB_URI, {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//     });
+//     console.log('MongoDB Connected');
+//   } catch (error) {
+//     console.error('MongoDB Connection Error:', error);
+//     process.exit(1);
+//   }
+// };
 
-export default connectDB;
+// export default connectDB;
+import mongoose from "mongoose";
+const connectDB=handler=>async(req,res)=>{
+    if(mongoose.connections[0].readyState){
+return handler(req,res)
+    }
+    await mongoose.connect(process.env.MONGODB_URI)
+    return handler(req,res);
+}
+export default connectDB;  
