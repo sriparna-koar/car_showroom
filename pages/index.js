@@ -560,6 +560,8 @@
 // };
 
 // export default Home;
+
+
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -584,7 +586,6 @@ const Home = () => {
 
       if (response.ok) {
         toast.success('Car added successfully');
-        // Clear form fields after successful submission
         setAddCarName('');
         setAddCarLocation('');
         setAddCarColor('');
@@ -597,6 +598,35 @@ const Home = () => {
     }
   };
 
+  // const handleSearchSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await fetch('/api/getCars?name=' + encodeURIComponent(searchCarName));
+
+  //     if (response.ok) {
+  //       const cars = await response.json();
+
+  //       if (cars.length > 0) {
+  //         toast.success('Car details found!');
+
+  //         setFoundCarDetails({
+  //           name: cars[0].name,
+  //           direction: cars[0].direction,
+  //           color: cars[0].color, 
+  //           year: cars[0].year,
+  //         });
+  //       } else {
+  //         toast.error('No car found with the provided name.');
+  //         setFoundCarDetails(null);
+  //       }
+  //     } else {
+  //       console.error('Failed to fetch car details');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
 
@@ -608,15 +638,11 @@ const Home = () => {
 
         if (cars.length > 0) {
           toast.success('Car details found!');
-          // Set the found car details
-          setFoundCarDetails({
-            name: cars[0].name,
-            direction: cars[0].direction,
-          });
+
+          setFoundCarDetails(cars);
         } else {
           toast.error('No car found with the provided name.');
-          // Reset found car details when not found
-          setFoundCarDetails(null);
+          setFoundCarDetails([]);
         }
       } else {
         console.error('Failed to fetch car details');
@@ -682,17 +708,33 @@ const Home = () => {
           />
         </label>
         <br />
-        {/* ... (other input fields for searching) */}
+
         <button type="submit">Search Car</button>
       </form>
 
-      {foundCarDetails && (
+      {/* {foundCarDetails.length > 0 && (
         <div>
           <h3>Found Car Details</h3>
           <p>Name: {foundCarDetails.name}</p>
           <p>Location: {foundCarDetails.direction}</p>
+          <p>Color: {foundCarDetails.color}</p>
+          <p>Year: {foundCarDetails.year}</p>
         </div>
-      )}
+      )} */}
+{foundCarDetails && foundCarDetails.length > 0 && (
+  <div>
+    <h3>Found Car Details</h3>
+    {foundCarDetails.map((car, index) => (
+      <div key={index}>
+        <p>Name: {car.name}</p>
+        <p>Location: {car.direction}</p>
+        <p>Color: {car.color}</p>
+        <p>Year: {car.year}</p>
+      </div>
+    ))}
+  </div>
+)}
+
     </div>
   );
 };

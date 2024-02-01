@@ -23,6 +23,7 @@
 // };
 
 // export default connectDB(handler);
+
 import connectDB from '../../middleware/mongodb';
 import Car from "../../models/Car";
 
