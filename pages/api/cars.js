@@ -20,12 +20,14 @@
 
 // export default connectDB(handler);
 // api/cars.js
+
+
 import connectDB from '../../middleware/mongodb';
 import Car from '../../models/Car';
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {
-    const { name, direction, color, year } = req.body;
+    const { name, direction, color, year} = req.body;
 
     try {
       // Validate that all required fields are present
@@ -34,7 +36,7 @@ const handler = async (req, res) => {
       }
 
       // Create a new car instance
-      const newCar = new Car({ name, direction, color, year });
+      const newCar = new Car({ name, direction, color, year});
 
       // Save the new car to the database
       await newCar.save();
